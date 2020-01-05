@@ -95,16 +95,15 @@ Private Sub GetColor()
     
     '// Get color for all controls
     If Not Me.Enabled Then
-        arrColors = Array(cColor.clrFreeze, cColor.clrFreeze)
+        arrColors = Array(cColor.clrFreeze, cColor.clrFreeze, cColor.clrBack)
     Else
-        arrColors = Array(cColor.clrNormal, cColor.clrActive)
+        arrColors = Array(cColor.clrNormal, cColor.clrActive, cColor.clrBack)
     End If
     
     '// Fill color for all controls
     If lblBorder_.BorderColor <> arrColors(0) Then
-        lblBorder_.BorderColor = arrColors(0)
-        lblSlider_.BackColor = arrColors(0)
-        lblFilled_.BackColor = arrColors(1)
+        lblBorder_.BorderColor = arrColors(0):  lblFilled_.BackColor = arrColors(1)
+        lblSlider_.BackColor = arrColors(0):    lblSlider_.BorderColor = arrColors(2)
     End If
 End Sub
 
