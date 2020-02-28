@@ -75,7 +75,6 @@ Private Sub lblBorder__Click():
 End Sub
 Private Sub lblFilled__Click(): Call lblBorder__Click: End Sub
 Private Sub lblSlider__Click(): Call lblBorder__Click: End Sub
-Private Sub cColor_ChangeColor(): Call GetColor:       End Sub
 
 '// Action center
 Private Sub OnAction(Optional ByRef isReset As Boolean = False)
@@ -90,7 +89,10 @@ Private Sub OnAction(Optional ByRef isReset As Boolean = False)
 End Sub
 
 '// Color center
-Private Sub GetColor()
+Private Sub cColor_ChangeColor()
+    Call GetColor(True)
+End Sub
+Private Sub GetColor(Optional ByRef isRefill As Boolean = False)
     Dim arrColors As Variant
     
     '// Get color for all controls
@@ -101,7 +103,7 @@ Private Sub GetColor()
     End If
     
     '// Fill color for all controls
-    If lblBorder_.BorderColor <> arrColors(0) Then
+    If lblBorder_.BorderColor <> arrColors(0) Or isRefill Then
         lblBorder_.BorderColor = arrColors(0):  lblFilled_.BackColor = arrColors(1)
         lblSlider_.BackColor = arrColors(0):    lblSlider_.BorderColor = arrColors(2)
     End If
