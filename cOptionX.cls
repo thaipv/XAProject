@@ -27,6 +27,8 @@ Option Explicit
 
 Public Event Change(ByRef isSelected As Boolean)
 
+Private WithEvents cColor     As oColor
+Attribute cColor.VB_VarHelpID = -1
 Private WithEvents cCentral_  As eAction
 Attribute cCentral_.VB_VarHelpID = -1
 Private WithEvents lblEmoji_  As MSForms.Label
@@ -53,8 +55,8 @@ End Property
 '// Set casting for all controls
 Friend Sub Casting(ByRef lblEmoji As MSForms.Label, ByRef lblTitle As MSForms.Label, _
                    ByRef cCentral As eAction)
-    Set lblEmoji_ = lblEmoji:   Set lblTitle_ = lblTitle
-    Set cCentral_ = cCentral:   Call GetColor(False)
+    Set lblEmoji_ = lblEmoji:   Set lblTitle_ = lblTitle:   Set cCentral_ = cCentral
+    Set cColor = oColor:        Call GetColor(False)
 End Sub
 
 '// Catch some events of objects
@@ -66,6 +68,9 @@ Private Sub cCentral__OnChange(ByRef strDeActive As String, ByRef strActive As S
 End Sub
 
 '// Some methods
+Private Sub cColor_ChangeColor()
+    GetColor (False)
+End Sub
 Private Sub GetColor(ByRef isHighlight As Boolean)
     Dim clrFont As Long
     
@@ -89,16 +94,17 @@ Private Sub OnChange(ByRef isSelected As Boolean, ByRef isHighlight As Boolean)
     End If
 End Sub
 Private Sub lblEmoji__MouseDown(ByVal Button As Integer, ByVal Shift As Integer, _
-                                ByVal x As Single, ByVal y As Single)
+                                ByVal X As Single, ByVal Y As Single)
     If Button = 1 Or Button = 2 Then Call cCentral_.OnAction(lblTitle_.Name)
 End Sub
 Private Sub lblTitle__MouseDown(ByVal Button As Integer, ByVal Shift As Integer, _
-                                ByVal x As Single, ByVal y As Single)
+                                ByVal X As Single, ByVal Y As Single)
     If Button = 1 Or Button = 2 Then Call cCentral_.OnAction(lblTitle_.Name)
 End Sub
 
 '// Terminate
 Private Sub Class_Terminate()
+    If Not cColor Is Nothing Then Set cColor = Nothing
     If Not cCentral_ Is Nothing Then Set cCentral_ = Nothing
     If Not lblEmoji_ Is Nothing Then Set lblEmoji_ = Nothing
     If Not lblTitle_ Is Nothing Then Set lblTitle_ = Nothing
