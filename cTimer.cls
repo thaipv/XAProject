@@ -18,37 +18,27 @@ Public Event Timer()
 
 #If VBA7 Then
     Private lngTimerID  As LongPtr
-    Private lngInterval As LongPtr
 #Else
-    Private lngTimerID  As Long
-    Private lngInterval As Long
+    Private lngTimerID  As Long  
 #End If
 
+Private lngInterval     As Long
 Private isEnabled       As Boolean
 
 '// Some properties
-#If VBA7 Then
-    Friend Property Get Interval() As LongPtr
-        Interval = lngInterval
-    End Property
-    Friend Property Let Interval(ByVal lngValue As LongPtr)
-        If lngValue > 0 And lngValue <> lngInterval Then lngInterval = lngValue
-    End Property
-#Else
-    Friend Property Get Interval() As Long
-        Interval = lngInterval
-    End Property
-    Friend Property Let Interval(ByVal lngValue As Long)
-        If lngValue > 0 And lngValue <> lngInterval Then lngInterval = lngValue
-    End Property
-#End If
+Friend Property Get Interval() As Long
+    Interval = lngInterval
+End Property
+Friend Property Let Interval(ByVal lngValue As Long)
+    If lngValue > 0 And lngValue <> lngInterval Then lngInterval = lngValue
+End Property
 
 Friend Property Get Enabled() As Boolean
     Enabled = isEnabled
 End Property
 Friend Property Let Enabled(ByVal isValue As Boolean)
     If isValue And Me.Interval > 0 Then
-        If lngTimerID = 0 Then
+        If 0 = lngTimerID Then
             lngTimerID = SetTimer(Application.hWnd, ObjPtr(Me), _
                                   Me.Interval, GetPtr(AddressOf TimerProc))
         End If
