@@ -7,9 +7,7 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
-Attribute VB_Description = "Timer control"
-Option Explicit
-
+Attribute VB_Description = "Class Timer"
 Option Explicit
 
 'Author:    Flavio Morgado
@@ -25,30 +23,28 @@ Public Event Timer()
 #End If
 
 Private lngInterval     As Long
-Private isEnabled       As Boolean
+Private blnEnabled_     As Boolean
 
 '// Some properties
-Friend Property Let Interval(ByVal lngValue As Long)
-    If lngValue > 0 And lngValue <> lngInterval Then lngInterval = lngValue
-End Property
 Friend Property Get Interval() As Long
     Interval = lngInterval
 End Property
-Friend Property Get Enabled() As Boolean
-    Enabled = isEnabled
+Friend Property Let Interval(ByVal lngValue As Long)
+    If lngValue > 0 And lngValue <> lngInterval Then lngInterval = lngValue
 End Property
-Friend Property Let Enabled(ByVal isValue As Boolean)
-    If isValue Then
-        If 0 = lngTimerID And Me.Interval > 0 Then
-            lngTimerID = SetTimer(Application.hWnd, ObjPtr(Me), _
-                                  Me.Interval, GetPtr(AddressOf TimerProc))
-        End If
-    ElseIf lngTimerID <> 0 Then
+
+Friend Property Get Enabled() As Boolean
+    Enabled = blnEnabled_
+End Property
+Friend Property Let Enabled(ByVal blnEnabled As Boolean)
+    If blnEnabled And lngInterval > 0 Then
+        lngTimerID = SetTimer(Application.hWnd, ObjPtr(Me), lngInterval, GetPtr(AddressOf TimerProc))
+    Else
         KillTimer Application.hWnd, lngTimerID
         lngTimerID = 0
     End If
     
-    If isEnabled Xor isValue Then isEnabled = isValue
+    blnEnabled_ = blnEnabled
 End Property
 
 '// Raise event method
