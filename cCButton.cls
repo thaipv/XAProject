@@ -7,7 +7,7 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
-Attribute VB_Description = "Flat command button (include a frame, 2 label)"
+Attribute VB_Description = "Flat command button (include a frame, 2 labels)"
 Option Explicit
 
 '       | |
